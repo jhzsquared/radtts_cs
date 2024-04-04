@@ -28,7 +28,6 @@ def save_plot(fname, attn_map):
     plt.imshow(attn_map)
     plt.savefig(fname)
 
-@jit(nopython=True)
 def mas_width1(attn_map):
     """mas with hardcoded width=1"""
     # assumes mel x text
@@ -43,7 +42,7 @@ def mas_width1(attn_map):
             prev_log = log_p[i-1, j]
             prev_j = j
 
-            if j-1 >= 0 and log_p[i-1, j-1] >= log_p[i-1, j]:
+            if j-1 >= 0 and (log_p[i-1, j-1] >= log_p[i-1, j]).all():
                 prev_log = log_p[i-1, j-1]
                 prev_j = j-1
 
